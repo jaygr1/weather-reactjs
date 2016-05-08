@@ -1,27 +1,58 @@
 var React = require('react');
+var PropTypes = React.PropTypes;
 
-// var GetLocation = React.createClass({
-//   render: function () {
-//     return (
-//       <div>
-//         <input type='text' placeholder='Mineola, New York'/>
-//         <button className='btn btn-success'> Get weather </button>
-//       </div>
-//     )
-//   }
-// });
-
-function button () {
+function Button (props) {
   return (
     <button type='button'
-      style={margin: 10}
+      style={{margin: 10}}
       className='btn btn-success'
       onClick={props.onSubmitCity}>
         {props.children}
     </button>
   )
-};
+}
 
+function InputField (props) {
+  return (
+    <input
+      className='form-control'
+      onChange={props.onUpdateCity}
+      placeholder='Mineola, New York'
+      type='text'
+      value={props.city} />
+  )
+}
 
+function getStyles (props) {
+  return {
+    display: 'flex',
+    flexDirection: props.direction || 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    maxWidth: 300,
+    alignSelf: 'right'
+  }
+}
 
-module.exports = GetCity;
+function getCity (props) {
+  return (
+    <div style={getStyles(props)}>
+      <InputField
+        onUpdateCity={props.onUpdateCity}
+        city={props.city} />
+      <Button
+        onSubmitCity={props.onSubmitCity}>
+          Get Weather
+      </Button>
+    </div>
+  )
+}
+
+getCity.PropTypes = {
+  direction: PropTypes.string,
+  onSubmitCity: PropTypes.func.isRequired,
+  onUpdateCity: PropTypes.func.isRequired,
+  city: PropTypes.string.isRequired
+}
+
+module.exports = getCity;
